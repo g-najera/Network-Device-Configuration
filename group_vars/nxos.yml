@@ -1,0 +1,8 @@
+ansible_connection: network_cli
+
+nexus_features:
+  - "privilege"
+  - "vpc"
+  - "lacp"
+  - "lldp"
+  - "tacacs+"

@@ -1,0 +1,26 @@
+- name: Get Existing BGP Config
+  eos_command:
+      commands: 
+        - command: sh run | s router bgp
+      match: any
+  register: existing_bgp_config
+  when: bgp_as is defined
+
+- name: Set BGP Fact
+  set_fact:
+    new_bgp_config: "{{ lookup('template', 'eos_bgp.j2').split('\n') }}"
+  when: bgp_as is defined
+
+- name: Configure BGP
+  eos_config:
+    src: templates/eos_bgp.j2
+  when: bgp_as is defined
+
+#- name: Remove Unneeded BGP Config
+#  eos_config:
+#    lines: "no {{ item }}"
+#    parents: "router bgp {{ bgp_as }}"
+#  loop: "{{ existing_bgp_config['stdout_lines'][0] }}"
+#  when: 
+#    - item not in new_bgp_config
+#    - "'password' not in item" #password hash won't match plain text password

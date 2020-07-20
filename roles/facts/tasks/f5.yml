@@ -1,0 +1,10 @@
+---
+- name: Get F5 Facts
+  bigip_device_info:
+    gather_subset: all
+    provider: "{{ f5_provider }}"
+
+#- name:
+#  set_fact:
+#    f5_facts: "{{ f5_facts }}"
+#    cacheable: yes

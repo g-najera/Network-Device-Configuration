@@ -1,0 +1,17 @@
+---
+- name: Gather NXOS Facts
+  nxos_facts: 
+    gather_subset: min
+    gather_network_resources: all
+    provider: 
+      timeout: 30
+
+- name: collect output from nxos device
+  nxos_command:
+    commands:
+      - show running-config all
+  register: output
+
+- name: set config fact
+  set_fact:
+    config: "{{ output.stdout[0] }}"

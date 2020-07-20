@@ -1,0 +1,13 @@
+- name: Get Existing NTP Servers
+  eos_command: 
+    commands: "sh run | i ntp server"
+  register: current_ntp
+
+- name: Configure NTP Servers
+  eos_config:
+    src: templates/eos_ntp.j2
+
+- name: Remove Unused NTP Servers
+  eos_config:
+    src: templates/eos_ntp_remove.j2
+    replace: line

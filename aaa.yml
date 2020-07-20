@@ -1,0 +1,7 @@
+---
+- name: Configure AAA
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - config_aaa

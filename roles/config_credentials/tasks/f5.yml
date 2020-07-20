@@ -1,0 +1,8 @@
+- name: Update Admin Password
+  bigip_user:
+      username_credential: admin
+      password_credential: "{{ global_pass }}"
+      state: present
+      provider:
+        server: "{{ ansible_host }}"
+        transport: cli

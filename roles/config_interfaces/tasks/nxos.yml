@@ -1,0 +1,95 @@
+- name: Enable NXOS VPC Feature
+  nxos_feature:
+    feature: "{{ item }}"
+    state: enabled 
+  loop:
+    - vpc
+    - lacp
+
+- name: Get VPC Data
+  nxos_command:
+    commands:
+      - command: sh run | i 'vpc domain'
+        output: json
+    timeout: 30
+  register: vpc_data
+  when: nxos_vpc_domain is not defined
+
+- name: Set VPC Data as Fact if it exists
+  set_fact:
+    nxos_vpc_domain: "{{ vpc_data['stdout_lines'][0] }}"
+  when: 
+    - nxos_vpc_domain is not defined
+    - vpc_data['stdout_lines'][0][0] != ''
+
+- name: Configure VLANs 
+  nxos_vlans:
+    config:
+      - vlan_id: "{{ item['vlan_id'] }}"
+        name: "{{ item['name'] }}"
+    state: merged 
+  when: vlans is defined
+  loop: "{{ vlans }}"
+
+- name: Configure Interface Settings
+  nxos_interface:
+    name: "{{ item['name'] }}"
+    description: "{{ item['description'] }}"
+    mode: "{% if 'ip_address' in item %}layer3{% else %}layer2{% endif %}"
+    admin_state: up
+  loop: "{{ interface_config }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  when: 
+    - interface_config is defined 
+    - item['enabled'] == True
+
+- name: Configure LACP Interfaces
+  nxos_lacp_interfaces:
+    config:
+      - name: "{{ item.1 }}"
+        rate: fast
+    state: merged
+  loop: "{{ lookup('subelements', interface_config, 'members', {'skip_missing': True}) }}"
+  when: ('members' in item.0)
+
+- name: Configure Port Channels
+  nxos_linkagg:
+    group: "{{ item['portchannel_id'] }}"
+    members: "{{ item['members'] }}"
+  loop: "{{ interface_config }}"
+  when: ('portchannel_id' in item and ('members' in item))
+
+- name: Configure VLANs on Trunk Interfaces
+  nxos_l2_interfaces:
+    config:
+      - name: "{{ item['name'] }}"
+        trunk:
+          allowed_vlans: "{{ item['vlans']|join(', ') }}"
+  loop: "{{ interface_config }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  when:
+    - item['mode'] is defined
+    - item['mode'] == 'trunk'
+    - item['vlans'] is defined
+
+- name: Configure VLANs on Access Interfaces
+  nxos_l2_interfaces:
+    config:
+      - name: "{{ item['interface'] }}"
+        access: 
+          vlan: "{{ item['vlans'] }}"
+    state: replaced
+  loop: "{{ interface_config }}"
+  when: ('mode' in item and (item['mode'] == 'access' and(item['vlans'] is defined)))
+
+- name: Configure Trunk on VPC Peerlink
+  nxos_l2_interface:
+    name: "{{ item['name'] }}"
+    mode: trunk
+  loop: "{{ interface_config }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  when: 
+    - item['vpc_peerlink'] is defined

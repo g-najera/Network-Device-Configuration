@@ -1,0 +1,11 @@
+- name: Backup existing config
+  eos_config:
+    backup: yes
+    backup_options:
+      filename: "{{ inventory_hostname }}.cfg"
+      dir_path: "backups"
+
+- name: Diff running against backup config
+  eos_config:
+    diff_against: intended
+    intended_config: "{{ lookup('file', 'backups/{{ inventory_hostname }}.cfg') }}"

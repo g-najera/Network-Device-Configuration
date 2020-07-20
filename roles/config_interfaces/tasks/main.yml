@@ -1,0 +1,13 @@
+---    
+- name: "Include Interface Tasks"
+  include_tasks: "{{ ansible_network_os }}.yml"
+
+- name: Build VPC Configuration
+  include_tasks: "{{ ansible_network_os }}_vpc.yml"
+  when: 
+    - ansible_network_os == 'nxos'
+
+#- name: "Shutdown Unused Interfaces"
+#  include_tasks: "nxos_shutdown.yml"
+#  when: 
+#    - ansible_network_os == 'nxos'

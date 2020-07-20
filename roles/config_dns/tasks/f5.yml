@@ -1,0 +1,9 @@
+---
+- name: Configure F5 DNS Servers
+  bigip_dns_nameserver: 
+    address: "{{ item }}"
+    state: enabled
+    service_port: 53
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ dns_servers }}"

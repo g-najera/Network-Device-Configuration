@@ -1,0 +1,6 @@
+- name: Backup existing config
+  eos_config:
+    backup: yes
+    backup_options:
+      filename: "{{ inventory_hostname }}.cfg"
+      dir_path: "{{ repo_dir }}"

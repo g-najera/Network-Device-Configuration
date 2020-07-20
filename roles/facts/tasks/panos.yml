@@ -1,0 +1,6 @@
+- name: Collect Palo Alto Facts
+  paloaltonetworks.panos.panos_facts:
+    gather_subset:
+      - all
+    provider: "{{ panos_provider }}"
+  delegate_to: localhost

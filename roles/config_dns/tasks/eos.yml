@@ -1,0 +1,12 @@
+
+- name: Configure EOS DNS
+  eos_system:
+    name_servers:
+      - { server: "{{ item }}", vrf: mgmt }
+  loop: "{{ dns_servers }}"
+
+- name: Configure EOS DNS Lookup Interface
+  eos_system:
+    lookup_source:
+      - interface: Management1
+        vrf: mgmt

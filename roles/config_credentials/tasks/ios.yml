@@ -1,0 +1,7 @@
+- name: Remove users and configure Admin password
+  ios_user:
+      configured_password: "{{ global_pass }}"
+      name: admin
+      purge: true
+      state: present
+      privilege: 15
