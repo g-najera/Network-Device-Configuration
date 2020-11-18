@@ -1,6 +1,0 @@
----
-- name: Configure F5 NTP Servers
-  bigip_device_ntp:
-    ntp_servers: "{{ ntp_servers }}"
-    provider: "{{ provider }}"
-  delegate_to: localhost

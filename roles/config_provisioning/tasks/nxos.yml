@@ -1,9 +1,0 @@
-- name: Set NXOS Hostname
-  nxos_system:
-    hostname: "{{ inventory_hostname }}"
-
-- name: Enable NXOS Features
-  nxos_feature:
-    feature: "{{ item }}"
-    state: enabled 
-  loop: "{{ nxos_features }}"

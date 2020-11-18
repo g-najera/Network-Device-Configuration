@@ -1,4 +1,0 @@
-snmp-server source-interface Management1
-snmp-server view all-items iso included
-snmp-server group {{ snmp_group }} v3 priv read all-items
-snmp-server user {{ snmp_user }} {{snmp_group }} v3 auth sha512 {{ snmp_password }}

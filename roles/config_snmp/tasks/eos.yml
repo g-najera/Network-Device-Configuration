@@ -1,4 +1,0 @@
-- name: Configure EOS SNMP
-  eos_config:
-    src: eos_snmp.j2
-    replace: line

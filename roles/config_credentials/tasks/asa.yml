@@ -1,4 +1,0 @@
-- name: Remove users and configure Admin password
-  asa_config:
-    lines: 
-      - "username admin password {{ global_pass }} privilege 15"

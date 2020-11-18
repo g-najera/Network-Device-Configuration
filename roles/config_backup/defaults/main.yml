@@ -1,7 +1,0 @@
----
-repo_dir: "/var/tmp/backups/network-backup-configurations"
-network_backup_file: "{{ network_backup_dir }}/{{ inventory_hostname }}.cfg"
-network_backup_repository: 'http://{{ gitlab_user | urlencode }}:{{ gitlab_password | urlencode }}@192.168.6.101/amack/network-backup-configurations.git'
-#network_backup_repository: 'git@192.168.6.101:amack/network-backup-configurations.git'
-git_name: ansible tower
-git_email: ansible_tower@gmail.com

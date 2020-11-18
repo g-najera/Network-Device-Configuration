@@ -1,3 +1,0 @@
-irules:
-  - name: RULE_HTTPS_REDIRECT
-    content: "when HTTP_REQUEST {\nHTTP::redirect https://[HTTP::host][HTTP::uri] \n}"

@@ -1,5 +1,0 @@
-- name: Gather Arista facts
-  eos_facts:
-    gather_subset: min
-    provider:
-      timeout: 30 

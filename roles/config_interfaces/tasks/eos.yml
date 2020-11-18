@@ -1,5 +1,0 @@
-- name: Create MLAG Config
-  eos_config:
-    src: mlag.j2
-  when: mlag_domain is defined
-

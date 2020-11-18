@@ -1,3 +1,0 @@
-- name: Configure DNS Servers
-  nxos_system:
-    name_servers: "{{ dns_servers }}"

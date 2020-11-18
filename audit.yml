@@ -1,7 +1,0 @@
----
-- name: Audit Configurations
-  hosts: all
-  gather_facts: no
-
-  roles:
-    - config_audit
