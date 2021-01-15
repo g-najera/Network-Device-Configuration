@@ -1,0 +1,10 @@
+- name: Get Existing IOS NTP Servers
+  ios_command:
+    commands:
+      - "show run | i ntp server"
+  register: current_ntp
+
+- name: Configure IOS NTP Servers
+  ios_config:
+    src: templates/ios_ntp.j2
+    save_when: changed

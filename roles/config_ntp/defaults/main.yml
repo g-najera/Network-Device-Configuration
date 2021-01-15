@@ -1,0 +1,5 @@
+ntp_servers:
+  - 216.240.36.24
+  - 50.205.244.113
+
+enforce_compliance: yes

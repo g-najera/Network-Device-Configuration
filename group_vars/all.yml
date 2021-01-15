@@ -1,0 +1,4 @@
+---
+management_acl:
+  name: management_acl
+  source: 192.168.6.0/24

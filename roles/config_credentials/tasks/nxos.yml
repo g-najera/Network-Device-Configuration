@@ -1,0 +1,6 @@
+- name: Remove users and configure Admin password
+  nxos_user:
+    configured_password: "{{ global_pass }}"
+    name: admin
+    state: present
+    purge: yes

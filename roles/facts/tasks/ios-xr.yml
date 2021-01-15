@@ -1,0 +1,5 @@
+---
+- name: Collect IOS-XR Facts
+  iosxr_facts:
+    gather_subset: all
+    gather_network_resources: all

@@ -1,0 +1,6 @@
+- name: Purge Users and Configure Password
+  eos_user:
+    purge: yes
+    username: admin
+    configured_password: "{{ global_pass }}"
+    state: present

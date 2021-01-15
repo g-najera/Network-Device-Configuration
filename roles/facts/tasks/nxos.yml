@@ -1,0 +1,5 @@
+---
+- name: Gather NXOS Facts
+  nxos_facts:
+    gather_subset: all
+    gather_network_resources: all

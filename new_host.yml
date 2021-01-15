@@ -1,0 +1,23 @@
+---
+- name: Create Host Var Files
+  hosts: eos
+  connection: "{{ ansible_connection | default('local') }}"
+  gather_facts: no
+
+  tasks:
+    - name: Get Device Facts
+      eos_facts:
+        gather_subset: hardware
+
+    - name: Get current host_vars files
+      find:
+        paths: "{{ playbook_dir }}/host_vars"
+        patterns: "*.yml"
+      register: current_hostvars
+      delegate_to: localhost
+      run_once: true
+
+    - debug:
+        msg: "{{ current_hostvars.files }}"
+      delegate_to: localhost
+      run_once: true

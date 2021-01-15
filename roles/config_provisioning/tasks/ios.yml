@@ -1,0 +1,3 @@
+- name: Configure IOS Hostname
+  ios_system:
+    hostname: "{{ inventory_hostname }}"

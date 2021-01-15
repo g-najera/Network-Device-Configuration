@@ -1,0 +1,53 @@
+- name: Gather Pre Upgrade Facts
+  eos_facts:
+    gather_subset: all
+    gather_network_resources: all
+
+- name: Get MLAG status
+  eos_command:
+    commands: show mlag | json
+  register: pre_mlag_status
+
+- name: Upgrade EOS Image
+  block:
+    - name: Set Boot Flash
+      eos_config:
+        commands:
+          - "boot system flash:{{ desired_version }}.swi"
+      when: ansible_net_image != boot_path
+
+    - name: Reboot Device
+      cli_command:
+        command: "reload now"
+        prompt:
+          - Save?
+          - "confirm"
+        answer:
+          - y
+          - y
+
+    - name: Wait For Device To Return
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 22
+        timeout: 600
+        delay: 100
+      delegate_to: localhost
+  when: ansible_net_version != desired_version
+
+- name: Gather Post Upgrade Facts
+  eos_facts:
+    gather_subset: all
+    gather_network_resources: all
+
+- name: Get MLAG Post Status
+  eos_command:
+    commands: show mlag | json
+  register: post_mlag_status
+
+- name: Assert Version Is Correct
+  assert:
+    that:
+      - desired_version == ansible_net_version
+      - post_mlag_status.stdout[0].peerLinkStatus == pre_mlag_status.stdout[0].peerLinkStatus
+      - post_mlag_status.stdout[0].localIntfStatus == pre_mlag_status.stdout[0].localIntfStatus

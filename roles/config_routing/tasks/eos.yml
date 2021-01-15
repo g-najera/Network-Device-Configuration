@@ -1,0 +1,9 @@
+- name: Configure BGP
+  eos_bgp:
+    config: "{{ bgp_config }}"
+    operation: replace
+  when: bgp_config is defined
+
+- name: Save Configuration
+  eos_config:
+    save_when: always

@@ -1,0 +1,4 @@
+- name: Gather Arista facts
+  eos_facts:
+    gather_subset: all
+    gather_network_resources: all

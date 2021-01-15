@@ -1,0 +1,10 @@
+- name: Configure IOS DNS
+  ios_system:
+    name_servers:
+      - "{{ item }}"
+  loop: "{{ dns_servers }}"
+
+- name: Configure IOS DNS Lookup Interface
+  ios_system:
+    lookup_source: GigabitEthernet1
+    lookup_enabled: yes

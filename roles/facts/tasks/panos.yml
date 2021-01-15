@@ -1,0 +1,5 @@
+- name: Get facts
+  paloaltonetworks.panos.panos_facts:
+    provider: "{{ provider }}"
+    gather_subset: ["config", "interfaces", "system"]
+  delegate_to: localhost

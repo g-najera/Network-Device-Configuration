@@ -1,0 +1,16 @@
+---
+- name: Get F5 Facts
+  bigip_device_info:
+    gather_subset:
+      - system-db
+      - system-info
+    provider: "{{ provider }}"
+  register: f5_facts
+
+- name: Set F5 Facts
+  set_fact:
+    ansible_net_serialnum: "{{ f5_facts.system_info.chassis_serial }}"
+    ansible_net_model: "{{ f5_facts.system_info.platform }}"
+    ansible_net_hostname: "{{ inventory_hostname }}"
+    ansible_net_version: "{{ f5_facts.system_info.product_version }}"
+    cacheable: yes

@@ -1,0 +1,10 @@
+- name: Testing Groups
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - debug:
+        msg: "{{ item.key }}"
+      loop: "{{ groups | dict2items }}"
+      run_once: true
+      when: item.key not in skip_groups

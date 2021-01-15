@@ -1,0 +1,6 @@
+- name: Configure SSH Management ACLs
+  asa_config:
+    lines: "ssh {{ item.network }} {{ item.interface }}"
+  loop: "{{ ssh_allowed_subnets }}"
+  loop_control:
+    label: "{{ item.network }}"

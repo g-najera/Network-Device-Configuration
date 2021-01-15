@@ -1,0 +1,5 @@
+syslog_servers:
+  - 192.168.10.133
+syslog_port: 5514
+
+enforce_compliance: yes

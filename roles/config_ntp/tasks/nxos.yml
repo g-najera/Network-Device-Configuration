@@ -1,0 +1,9 @@
+- name: Get Existing Nexus NTP Servers
+  nxos_command:
+    commands: "show run | i 'ntp server'"
+  register: current_ntp
+
+- name: Configure Nexus NTP Servers
+  nxos_config:
+    src: templates/nxos_ntp.j2
+    save_when: changed

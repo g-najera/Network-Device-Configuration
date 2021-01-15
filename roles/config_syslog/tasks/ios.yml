@@ -1,0 +1,11 @@
+- name: Configure IOS Logging
+  cisco.ios.ios_logging:
+    aggregate:
+      - { dest: console, level: notifications }
+      - { dest: buffered, size: 9000 }
+
+- name: Configure IOS Syslog Servers
+  cisco.ios.ios_config:
+    lines:
+      - "logging host {{ item }} transport udp port {{ syslog_port }}"
+  loop: "{{ syslog_servers }}"

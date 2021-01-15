@@ -1,0 +1,18 @@
+- name: Gather ASA Facts
+  asa_command:
+    commands:
+      - show run
+      - show hostname
+      - show version | i Software Version
+      - sh version | i Hardware
+      - show version | i Serial Number
+  register: asa_vars
+
+- name: Set ASA Facts
+  set_fact:
+    ansible_net_config: "{{ asa_vars.stdout[0]|trim }}"
+    ansible_net_hostname: "{{ asa_vars.stdout[1]|trim }}"
+    ansible_net_version: "{{ asa_vars.stdout[2].split(' ')[6].strip()|trim }}"
+    ansible_net_model: "{{ asa_vars.stdout[3].split(':')[1].split(',')[0].strip()|trim }}"
+    ansible_net_serialnum: "{{ asa_vars.stdout[4].split(':')[1].strip()|trim }}"
+    cacheable: yes

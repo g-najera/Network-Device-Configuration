@@ -1,0 +1,8 @@
+ansible_network_os: panos
+desired_version: "9.0.0"
+connection: local
+
+provider:
+  password: "{{ panos_password }}"
+  username: "{{ panos_user }}"
+  ip_address: "{{ ansible_host }}"

@@ -1,0 +1,14 @@
+ansible_connection: httpapi
+ansible_become: yes
+desired_version: "4.24.1.1F"
+boot_path: "flash:/{{ desired_version }}"
+
+syslog_vrf: management
+syslog_source_interface: Management1
+
+snmp_vrf: management
+
+ntp_vrf: management
+
+dns_vrf: management
+dns_source_interface: Management1
