@@ -1,5 +1,8 @@
 # Network Configuration Management
 
+
+These are example/demo roles only. You may need to do a large amount of customization to make these work for you and your specific network environments!
+
 Ansible network roles to perform a base configuration of the following network devices:
 
 - Arista EOS
